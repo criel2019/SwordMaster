@@ -311,12 +311,11 @@ public class ProjectASceneSetup : Editor
 
 		var rb = obj.AddComponent<Rigidbody>();
 		rb.useGravity = false;
-		rb.isKinematic = true;
-		rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+		rb.isKinematic = false; // 검기가 움직여야 하므로 false로 변경
+		rb.collisionDetectionMode = CollisionDetectionMode.Continuous; // 빠른 검기를 위한 연속 충돌 감지
 
-		// [중요] 인스턴싱 후 즉시 활성화를 위한 스크립트가 없다면, 
-		// SwordMaster에서 SetActive(true)를 해야 함. 
-		// 하지만 여기선 물리적으로 존재해야 하므로 Collider만 켜둠.
+		// [중요] WaveProjectile 컴포넌트 추가 - 적 타격 판정 처리
+		obj.AddComponent<WaveProjectile>();
 
 		return obj;
 	}

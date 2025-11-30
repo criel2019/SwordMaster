@@ -69,14 +69,20 @@
     <Compile Include="Assets\ObstacleBuilder.cs" />
     <Compile Include="Assets\Scripts\Camera\TopDownActionCamera.cs" />
     <Compile Include="Assets\DivineBeastBase.cs" />
+    <Compile Include="Assets\Scripts\Battle\WaveProjectile.cs" />
     <Compile Include="Assets\Scripts\Battle\ExplosiveDecoy.cs" />
+    <Compile Include="Assets\Scripts\Battle\ISkill.cs" />
     <Compile Include="Assets\Scripts\Battle\RicochetBall.cs" />
     <Compile Include="Assets\Scripts\Move\ElasticTether.cs" />
     <Compile Include="Assets\OrbBeast.cs" />
+    <Compile Include="Assets\Scripts\Battle\SkillManager.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\DivineBeastSystem.cs" />
     <Compile Include="Assets\SwordMaster.cs" />
+    <Compile Include="Assets\Scripts\Battle\Skills\FlashCutSkill.cs" />
+    <Compile Include="Assets\Scripts\Battle\Skills\FlashCutChainSkill.cs" />
     <Compile Include="Assets\Scripts\Move\PlayerInputBrain.cs" />
+    <Compile Include="Assets\Scripts\Battle\PlayerStamina.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

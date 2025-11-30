@@ -23,8 +23,10 @@ public class ArcadePhysicsMover : MonoBehaviour
 	private Vector3 _lookPosition;
 	private float _lastDashTime;
 	private bool _isDashing;
+	private bool _isFrozen;
 
 	public bool IsDashing => _isDashing;
+	public bool IsFrozen => _isFrozen;
 
 	private void Awake()
 	{
@@ -48,8 +50,20 @@ public class ArcadePhysicsMover : MonoBehaviour
 		_lookPosition = new Vector3(worldPoint.x, transform.position.y, worldPoint.z);
 	}
 
+	public void Freeze()
+	{
+		_isFrozen = true;
+		_inputDirection = Vector3.zero;
+	}
+
+	public void Unfreeze()
+	{
+		_isFrozen = false;
+	}
+
 	public void Dash()
 	{
+		if (_isFrozen) return;
 		if (Time.time < _lastDashTime + dashCooldown || _isDashing) return;
 		StartCoroutine(Routine_PerformDash());
 	}
@@ -80,7 +94,7 @@ public class ArcadePhysicsMover : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (_isDashing) return;
+		if (_isDashing || _isFrozen) return;
 
 		if (_inputDirection.sqrMagnitude > 0.01f)
 		{
