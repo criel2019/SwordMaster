@@ -186,10 +186,10 @@ public class FlashCutSkill : MonoBehaviour, ISkill
         {
             if (h.collider.CompareTag("Enemy"))
             {
-                var destruction = h.collider.GetComponent<EnemyDestruction>();
-                if (destruction != null)
+                var enemy = h.collider.GetComponent<IEnemy>();
+                if (enemy != null)
                 {
-                    destruction.ShatterAndDie();
+                    enemy.Die();
                     killCount++;
                 }
             }

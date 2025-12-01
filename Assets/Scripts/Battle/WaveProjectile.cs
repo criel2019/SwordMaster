@@ -59,10 +59,10 @@ public class WaveProjectile : MonoBehaviour
 			if (col.CompareTag("Enemy") && !_hitEnemies.Contains(col))
 			{
 				_hitEnemies.Add(col);
-				var destruction = col.GetComponent<EnemyDestruction>();
-				if (destruction != null)
+				var enemy = col.GetComponent<IEnemy>();
+				if (enemy != null)
 				{
-					destruction.ShatterAndDie();
+					enemy.Die();
 					Debug.Log($"<color=yellow>Wave hit enemy: {col.name}</color>");
 				}
 			}
@@ -74,10 +74,10 @@ public class WaveProjectile : MonoBehaviour
 		if (other.CompareTag("Enemy") && !_hitEnemies.Contains(other))
 		{
 			_hitEnemies.Add(other);
-			var destruction = other.GetComponent<EnemyDestruction>();
-			if (destruction != null)
+			var enemy = other.GetComponent<IEnemy>();
+			if (enemy != null)
 			{
-				destruction.ShatterAndDie();
+				enemy.Die();
 				Debug.Log($"<color=yellow>Wave hit enemy (Trigger): {other.name}</color>");
 			}
 		}
@@ -89,10 +89,10 @@ public class WaveProjectile : MonoBehaviour
 		if (collision.collider.CompareTag("Enemy") && !_hitEnemies.Contains(collision.collider))
 		{
 			_hitEnemies.Add(collision.collider);
-			var destruction = collision.collider.GetComponent<EnemyDestruction>();
-			if (destruction != null)
+			var enemy = collision.collider.GetComponent<IEnemy>();
+			if (enemy != null)
 			{
-				destruction.ShatterAndDie();
+				enemy.Die();
 				Debug.Log($"<color=yellow>Wave hit enemy (Collision): {collision.collider.name}</color>");
 			}
 		}

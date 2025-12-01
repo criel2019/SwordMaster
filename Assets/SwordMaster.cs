@@ -115,10 +115,10 @@ public class SwordMaster : MonoBehaviour
 		{
 			if (col.CompareTag("Enemy"))
 			{
-				var destruction = col.GetComponent<EnemyDestruction>();
-				if (destruction != null)
+				var enemy = col.GetComponent<IEnemy>();
+				if (enemy != null)
 				{
-					destruction.ShatterAndDie();
+					enemy.Die();
 					killCount++;
 				}
 			}
@@ -236,10 +236,10 @@ public class SlashProjectile : MonoBehaviour
 		if (other.CompareTag("Enemy") && !_hitEnemies.Contains(other))
 		{
 			_hitEnemies.Add(other);
-			var destruction = other.GetComponent<EnemyDestruction>();
-			if (destruction != null)
+			var enemy = other.GetComponent<IEnemy>();
+			if (enemy != null)
 			{
-				destruction.ShatterAndDie();
+				enemy.Die();
 			}
 		}
 	}

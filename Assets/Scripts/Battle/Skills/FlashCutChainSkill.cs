@@ -25,7 +25,7 @@ public class FlashCutChainSkill : MonoBehaviour, ISkill
 	[SerializeField] private Color trailStartColor = new Color(1f, 0.4f, 0.4f, 1f);
 	[SerializeField] private Color trailEndColor = new Color(1f, 0.2f, 0.2f, 0f);
 	[SerializeField] private float trailWidth = 1.2f;
-	[SerializeField] private float trailTime = 0.2f;
+	[SerializeField] private float trailTime = 0.5f;
 
 	[Header("Debug")]
 	[SerializeField] private bool showRangeGizmo = true;
@@ -153,13 +153,17 @@ public class FlashCutChainSkill : MonoBehaviour, ISkill
 			if (target == null || target.gameObject == null) continue;
 
 			// 이미 파괴된 오브젝트 체크
-			EnemyDestruction destruction = target.GetComponent<EnemyDestruction>();
-			if (destruction == null) continue;
+			IEnemy enemy = target.GetComponent<IEnemy>();
+			if (enemy == null) continue;
 
 			Vector3 startPos = playerTransform.position;
 			Vector3 endPos = target.position;
 			Vector3 dir = (endPos - startPos).normalized;
 			float dist = Vector3.Distance(startPos, endPos);
+
+			// 적을 관통해서 8~12m 더 나아가는 최종 위치 계산
+			float overshootDistance = Random.Range(8f, 12f);
+			Vector3 finalPos = endPos + (dir * overshootDistance);
 
 			// 이동 보간
 			float elapsed = 0f;
@@ -169,16 +173,16 @@ public class FlashCutChainSkill : MonoBehaviour, ISkill
 				float t = Mathf.Clamp01(elapsed / flashDuration);
 				float easedT = 1f - Mathf.Pow(1f - t, 3f);
 
-				playerTransform.position = Vector3.Lerp(startPos, endPos, easedT);
+				playerTransform.position = Vector3.Lerp(startPos, finalPos, easedT);
 				yield return null;
 			}
 
-			playerTransform.position = endPos;
+			playerTransform.position = finalPos;
 
 			// 타격 (다시 한번 null 체크)
-			if (target != null && destruction != null)
+			if (target != null && enemy != null)
 			{
-				destruction.ShatterAndDie();
+				enemy.Die();
 			}
 		}
 

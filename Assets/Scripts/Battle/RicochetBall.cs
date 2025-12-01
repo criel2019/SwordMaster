@@ -47,9 +47,21 @@ public class RicochetBall : MonoBehaviour
 		// 1. 적과 충돌
 		if (collision.collider.CompareTag("Enemy"))
 		{
-			// (A) 적 파괴 연출 (무조건 실행)
-			EnemyDestruction destruction = collision.collider.GetComponent<EnemyDestruction>();
-			if (destruction) destruction.ShatterAndDie();
+			// 보스 체크 (보스는 한 방에 안 죽음)
+			IBossEnemy boss = collision.collider.GetComponent<IBossEnemy>();
+			if (boss != null)
+			{
+				// 보스는 히트 카운트 방식
+				boss.TakeDamage(1);
+
+				// 공은 보스 타격 후 바로 삭제 (간단하게)
+				Destroy(gameObject);
+				return;
+			}
+
+			// (A) 일반 적 파괴 연출 (무조건 실행)
+			IEnemy enemy = collision.collider.GetComponent<IEnemy>();
+			if (enemy != null) enemy.Die();
 			else Destroy(collision.collider.gameObject);
 
 			// (B) 공의 운명 결정
